@@ -7,7 +7,8 @@
 1. **Клонируйте репозиторий:**
 
    ```bash
-   
+   git clone git@github.com:humooo/fastApiProject.git
+   cd fastApiProject
    ```
 
 2. **Создайте виртуальное окружение:**
