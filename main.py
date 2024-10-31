@@ -29,6 +29,22 @@ def read_category(category_id: int, db: Session = Depends(get_db)):
     return db_category
 
 
+@app.put("/categories/{category_id}", response_model=schemas.ProductCategoryCreate)
+def update_category(category_id: int, category: schemas.ProductCategoryCreate, db: Session = Depends(get_db)):
+    db_category = crud.update_category(db=db, category_id=category_id, category=category)
+    if db_category is None:
+        raise HTTPException(status_code=404, detail="Category not found")
+    return db_category
+
+
+@app.delete("/categories/{category_id}", response_model=dict)
+def delete_category(category_id: int, db: Session = Depends(get_db)):
+    db_category = crud.delete_category(db=db, category_id=category_id)
+    if db_category is None:
+        raise HTTPException(status_code=404, detail="Category not found")
+    return {"message": "Category deleted successfully"}
+
+
 @app.post("/products/", response_model=schemas.Product)
 def create_product(product: schemas.ProductCreate, db: Session = Depends(get_db)):
     return crud.create_product(db=db, product=product)
@@ -45,3 +61,19 @@ def read_product(product_id: int, db: Session = Depends(get_db)):
     if db_product is None:
         raise HTTPException(status_code=404, detail="Product not found")
     return db_product
+
+
+@app.put("/products/{product_id}", response_model=schemas.ProductCreate)
+def update_product(product_id: int, product: schemas.ProductCreate, db: Session = Depends(get_db)):
+    db_product = crud.update_product(db=db, product_id=product_id, product=product)
+    if db_product is None:
+        raise HTTPException(status_code=404, detail="Product not found")
+    return db_product
+
+
+@app.delete("/products/{product_id}", response_model=dict)
+def delete_product(product_id: int, db: Session = Depends(get_db)):
+    db_product = crud.delete_product(db=db, product_id=product_id)
+    if db_product is None:
+        raise HTTPException(status_code=404, detail="Product not found")
+    return {"message": "Product deleted successfully"}

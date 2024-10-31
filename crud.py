@@ -19,6 +19,24 @@ def create_category(db: Session, category: schemas.ProductCategoryCreate):
     return db_category
 
 
+def update_category(db: Session, category_id: int, category: schemas.ProductCategoryCreate):
+    db_category = db.query(models.ProductCategory).filter(models.ProductCategory.id == category_id).first()
+    if db_category:
+        db_category.name = category.name
+        db_category.description = category.description
+        db.commit()
+        db.refresh(db_category)
+    return db_category
+
+
+def delete_category(db: Session, category_id: int):
+    db_category = db.query(models.ProductCategory).filter(models.ProductCategory.id == category_id).first()
+    if db_category:
+        db.delete(db_category)
+        db.commit()
+    return db_category
+
+
 def get_product(db: Session, product_id: int):
     return db.query(models.Product).filter(models.Product.id == product_id).first()
 
@@ -37,4 +55,24 @@ def create_product(db: Session, product: schemas.ProductCreate):
     db.add(db_product)
     db.commit()
     db.refresh(db_product)
+    return db_product
+
+
+def update_product(db: Session, product_id: int, product: schemas.ProductCreate):
+    db_product = db.query(models.Product).filter(models.Product.id == product_id).first()
+    if db_product:
+        db_product.name = product.name
+        db_product.description = product.description
+        db_product.price = product.price
+        db_product.category_id = product.category_id
+        db.commit()
+        db.refresh(db_product)
+    return db_product
+
+
+def delete_product(db: Session, product_id: int):
+    db_product = db.query(models.Product).filter(models.Product.id == product_id).first()
+    if db_product:
+        db.delete(db_product)
+        db.commit()
     return db_product
