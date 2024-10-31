@@ -153,4 +153,3 @@ uvicorn main:app --reload
 - **FastAPI**: для создания API
 - **SQLAlchemy**: для работы с базой данных
 - **SQLite**: в качестве базы данных
-```
